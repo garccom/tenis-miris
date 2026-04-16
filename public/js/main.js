@@ -1,0 +1,37 @@
+import { fetchProducts } from './api.js';
+import { state, applyFilters } from './state.js';
+import { renderGrid, renderSkeleton } from './grid.js';
+import { initFilters } from './filters.js';
+import { initSearch } from './search.js';
+
+async function init() {
+  renderSkeleton();
+
+  try {
+    const data = await fetchProducts();
+    state.allProducts = data.products;
+    state.meta = data.meta;
+
+    initFilters(data.meta);
+    initSearch();
+    renderGrid(applyFilters());
+  } catch (err) {
+    console.error('Init error:', err);
+    const grid = document.getElementById('grid');
+    if (grid) grid.innerHTML = `
+      <div class="col-span-2 sm:col-span-3 lg:col-span-4 text-center py-20">
+        <p class="text-[#525252] dark:text-[#a3a3a3] text-sm mb-4">No se pudieron cargar los productos.</p>
+        <button onclick="location.reload()" class="text-sm underline text-[#0a0a0a] dark:text-[#fafafa]">Reintentar</button>
+      </div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Navigate to detail on card click
+  document.getElementById('grid')?.addEventListener('click', e => {
+    const card = e.target.closest('[data-codigo]');
+    if (card) location.href = `/producto.html?codigo=${encodeURIComponent(card.dataset.codigo)}`;
+  });
+
+  init();
+});

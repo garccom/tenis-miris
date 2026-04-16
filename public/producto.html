@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenis Miri</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <link rel="stylesheet" href="/css/output.css" />
+</head>
+<body class="min-h-dvh bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-[#fafafa] font-sans antialiased">
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-[#e5e5e5] dark:border-[#262626]">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center gap-4">
+      <a href="/" class="w-10 h-10 flex items-center justify-center text-[#0a0a0a] dark:text-[#fafafa]" aria-label="Volver al catálogo">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+      </a>
+      <a href="/" class="text-base font-bold tracking-widest uppercase select-none">
+        Tenis Miri
+      </a>
+    </div>
+  </header>
+
+  <!-- ── Skeleton ────────────────────────────────────────────────────────── -->
+  <div id="detail-skeleton" class="max-w-7xl mx-auto px-4 py-6 animate-pulse">
+    <div class="md:grid md:grid-cols-2 md:gap-12">
+      <div class="aspect-square bg-[#e5e5e5] dark:bg-[#262626]"></div>
+      <div class="pt-6 md:pt-0 space-y-4">
+        <div class="h-3 bg-[#e5e5e5] dark:bg-[#262626] rounded w-1/4"></div>
+        <div class="h-7 bg-[#e5e5e5] dark:bg-[#262626] rounded w-3/4"></div>
+        <div class="h-6 bg-[#e5e5e5] dark:bg-[#262626] rounded w-1/4"></div>
+        <div class="h-px bg-[#e5e5e5] dark:bg-[#262626] my-4"></div>
+        <div class="h-4 bg-[#e5e5e5] dark:bg-[#262626] rounded w-1/3 mb-3"></div>
+        <div class="flex gap-2">
+          <div class="w-14 h-14 bg-[#e5e5e5] dark:bg-[#262626] rounded"></div>
+          <div class="w-14 h-14 bg-[#e5e5e5] dark:bg-[#262626] rounded"></div>
+          <div class="w-14 h-14 bg-[#e5e5e5] dark:bg-[#262626] rounded"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Error state ─────────────────────────────────────────────────────── -->
+  <div id="detail-error" class="hidden max-w-7xl mx-auto px-4 py-20 text-center">
+    <p class="text-[#525252] dark:text-[#a3a3a3] text-sm mb-4">No se encontró el producto.</p>
+    <a href="/" class="text-sm underline text-[#0a0a0a] dark:text-[#fafafa]">Volver al catálogo</a>
+  </div>
+
+  <!-- ── Detail content ──────────────────────────────────────────────────── -->
+  <div id="detail-content" class="hidden pb-32 md:pb-10">
+    <div class="max-w-7xl mx-auto px-4 py-6 md:grid md:grid-cols-2 md:gap-12 lg:gap-16">
+
+      <!-- ── Left: Gallery ─────────────────────────────────────────────── -->
+      <div>
+        <!-- Main image -->
+        <div class="relative aspect-square overflow-hidden bg-[#f5f5f5] dark:bg-[#171717]">
+          <img
+            id="gallery-main"
+            src=""
+            alt=""
+            width="800"
+            height="800"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <!-- Dots (mobile) -->
+        <div id="gallery-dots" class="flex justify-center gap-2 mt-3 md:hidden"></div>
+
+        <!-- Thumbnails (desktop) -->
+        <div id="gallery-thumbs" class="hidden md:grid grid-cols-4 gap-2 mt-3"></div>
+      </div>
+
+      <!-- ── Right: Info ────────────────────────────────────────────────── -->
+      <div class="pt-6 md:pt-0">
+
+        <!-- Brand + Name + Price -->
+        <p id="detail-marca" class="text-xs font-semibold uppercase tracking-widest text-[#525252] dark:text-[#a3a3a3] mb-1"></p>
+        <h1 id="detail-nombre" class="text-2xl md:text-3xl font-bold leading-tight mb-2"></h1>
+        <p id="detail-precio" class="text-xl font-bold font-tabular mb-6"></p>
+
+        <hr class="border-[#e5e5e5] dark:border-[#262626] mb-6" />
+
+        <!-- Size selector -->
+        <div class="mb-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-[#525252] dark:text-[#a3a3a3] mb-3">
+            Selecciona tu talla
+          </p>
+          <div id="size-chips" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Description -->
+        <div id="detail-descripcion-section" class="mb-6">
+          <p class="text-xs font-semibold uppercase tracking-widest text-[#525252] dark:text-[#a3a3a3] mb-2">Descripción</p>
+          <p id="detail-descripcion" class="text-sm text-[#525252] dark:text-[#a3a3a3] leading-relaxed"></p>
+        </div>
+
+        <!-- CTA Desktop (inline) -->
+        <div class="hidden md:block">
+          <button
+            id="btn-whatsapp"
+            disabled
+            class="w-full h-14 flex items-center justify-center gap-3 bg-[#25D366] text-white text-sm font-semibold rounded-xl opacity-40 cursor-not-allowed transition-opacity duration-200"
+            aria-label="Consultar por WhatsApp"
+          >
+            <!-- WhatsApp SVG icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+            </svg>
+            <span id="btn-whatsapp-text">Selecciona una talla</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA Fixed (mobile) ──────────────────────────────────────────────── -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-[#0a0a0a] border-t border-[#e5e5e5] dark:border-[#262626] px-4 py-3 pb-safe">
+    <button
+      id="btn-whatsapp"
+      disabled
+      class="w-full h-14 flex items-center justify-center gap-3 bg-[#25D366] text-white text-sm font-semibold rounded-xl opacity-40 cursor-not-allowed transition-opacity duration-200"
+      aria-label="Consultar por WhatsApp"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+      </svg>
+      <span id="btn-whatsapp-text">Selecciona una talla</span>
+    </button>
+  </div>
+
+  <script type="module" src="/js/detail.js"></script>
+</body>
+</html>

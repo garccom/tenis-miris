@@ -1,0 +1,16 @@
+{
+  "name": "tenis-miri",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./src/css/input.css -o ./public/css/output.css --minify",
+    "dev": "netlify dev",
+    "watch:css": "tailwindcss -i ./src/css/input.css -o ./public/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.1"
+  }
+}
