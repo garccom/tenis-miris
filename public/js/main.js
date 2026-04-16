@@ -2,7 +2,6 @@ import { fetchProducts } from './api.js';
 import { state, applyFilters } from './state.js';
 import { renderGrid, renderSkeleton } from './grid.js';
 import { initFilters } from './filters.js';
-import { initSearch } from './search.js';
 
 async function init() {
   renderSkeleton();
@@ -13,7 +12,6 @@ async function init() {
     state.meta = data.meta;
 
     initFilters(data.meta);
-    initSearch();
     renderGrid(applyFilters());
   } catch (err) {
     console.error('Init error:', err);

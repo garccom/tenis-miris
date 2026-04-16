@@ -1,14 +1,11 @@
-import { normalizeText } from './utils.js';
-
 export const state = {
   allProducts: [],
   meta: null,
   filters: { marcas: [], tallas: [], precioMin: null, precioMax: null },
-  query: '',
 };
 
 export function applyFilters() {
-  const { allProducts, filters, query } = state;
+  const { allProducts, filters } = state;
   let result = allProducts;
 
   if (filters.marcas.length) {
@@ -25,13 +22,6 @@ export function applyFilters() {
 
   if (filters.precioMax !== null) {
     result = result.filter(p => p.precio <= filters.precioMax);
-  }
-
-  if (query.trim()) {
-    const q = normalizeText(query.trim());
-    result = result.filter(p =>
-      normalizeText(`${p.nombre} ${p.marca} ${p.modelo} ${p.color} ${p.codigo}`).includes(q)
-    );
   }
 
   return result;

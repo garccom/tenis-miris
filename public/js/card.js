@@ -24,7 +24,7 @@ export function renderCard(product) {
             width="400"
             height="400"
             loading="lazy"
-            class="w-full h-full object-cover transition-all duration-300 group-hover:scale-[1.03] img-lazy"
+            class="w-full h-full object-contain transition-all duration-300 group-hover:scale-[1.03] img-lazy"
           />
         ` : PLACEHOLDER_SVG}
       </div>

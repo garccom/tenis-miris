@@ -8,7 +8,7 @@ export function openWhatsApp(product, talla, whatsappNumber) {
     'Hola, me interesa este tenis:',
     '',
     `*${product.nombre}*`,
-    `Modelo: ${product.modelo}`,
+    `Código: ${product.codigo}`,
     `Talla: ${talla}`,
     `Precio: ${formatMXN(product.precio)} MXN`,
   ];

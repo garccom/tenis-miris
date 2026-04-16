@@ -6,7 +6,7 @@ function url(publicId, transform) {
 }
 
 export function thumbUrl(publicId) {
-  return url(publicId, 'w_400,ar_1:1,c_fill,f_auto,q_auto');
+  return url(publicId, 'w_600,c_pad,ar_1:1,b_f5f5f5,f_auto,q_auto');
 }
 
 export function thumbBlurUrl(publicId) {

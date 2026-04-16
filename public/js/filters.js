@@ -168,7 +168,7 @@ function syncToUrl() {
   const params = new URLSearchParams();
   if (state.filters.marcas.length) params.set('marca', state.filters.marcas.join(','));
   if (state.filters.tallas.length) params.set('talla', state.filters.tallas.join(','));
-  if (state.query) params.set('q', state.query);
+
   const url = params.toString() ? `${location.pathname}?${params}` : location.pathname;
   history.replaceState({}, '', url);
 }
@@ -177,9 +177,4 @@ function syncFromUrl() {
   const params = new URLSearchParams(location.search);
   if (params.has('marca')) state.filters.marcas = params.get('marca').split(',');
   if (params.has('talla')) state.filters.tallas = params.get('talla').split(',').map(parseFloat);
-  if (params.has('q')) {
-    state.query = params.get('q');
-    const input = document.getElementById('search-input');
-    if (input) input.value = state.query;
-  }
 }

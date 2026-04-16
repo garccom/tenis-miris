@@ -14,15 +14,10 @@
 
   <!-- ── Header ──────────────────────────────────────────────────────────── -->
   <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-[#e5e5e5] dark:border-[#262626]">
-    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center">
       <a href="/" class="text-base font-bold tracking-widest uppercase select-none">
         Tenis Miri
       </a>
-      <button id="btn-search" class="w-10 h-10 flex items-center justify-center" aria-label="Buscar">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-        </svg>
-      </button>
     </div>
   </header>
 
@@ -35,7 +30,7 @@
 
     <!-- Empty state -->
     <div id="empty-state" class="hidden text-center py-24">
-      <p class="text-[#525252] dark:text-[#a3a3a3] text-sm">Sin resultados para tu búsqueda.</p>
+      <p class="text-[#525252] dark:text-[#a3a3a3] text-sm">Sin resultados con los filtros aplicados.</p>
       <a href="/" class="mt-4 inline-block text-sm underline text-[#0a0a0a] dark:text-[#fafafa]">Ver todos</a>
     </div>
   </main>
@@ -113,33 +108,6 @@
       </button>
       <button id="btn-apply-filters" class="flex-1 h-12 bg-[#0a0a0a] dark:bg-[#fafafa] text-white dark:text-[#0a0a0a] rounded-xl text-sm font-semibold active:opacity-80 transition-opacity">
         Aplicar
-      </button>
-    </div>
-  </div>
-
-  <!-- ── Search overlay ──────────────────────────────────────────────────── -->
-  <div id="search-overlay" class="hidden fixed inset-0 z-50 bg-white dark:bg-[#0a0a0a]" role="dialog" aria-modal="true" aria-label="Búsqueda">
-    <div class="flex items-center gap-3 px-4 h-14 border-b border-[#e5e5e5] dark:border-[#262626]">
-      <button id="btn-close-search" class="w-8 h-8 flex items-center justify-center text-[#0a0a0a] dark:text-[#fafafa]" aria-label="Cerrar búsqueda">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-        </svg>
-      </button>
-      <input
-        id="search-input"
-        type="search"
-        inputmode="search"
-        placeholder="Buscar por nombre, marca, talla..."
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        class="flex-1 bg-transparent text-sm text-[#0a0a0a] dark:text-[#fafafa] placeholder-[#a3a3a3] dark:placeholder-[#525252] outline-none"
-      />
-      <button id="btn-clear-search" class="w-8 h-8 flex items-center justify-center text-[#a3a3a3]" aria-label="Limpiar búsqueda">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
       </button>
     </div>
   </div>
