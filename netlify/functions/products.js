@@ -9,16 +9,17 @@ const COLS = {
   MARCA: 3,
   MODELO: 4,
   TALLA: 5,
-  PRECIO: 6,
-  COLOR: 7,
-  ESTADO: 8,
-  DESCRIPCION: 9,
-  // NOTAS_INTERNAS: 10 — never exposed
-  IMAGEN_1: 11,
-  IMAGEN_2: 12,
-  IMAGEN_3: 13,
-  IMAGEN_4: 14,
-  FECHA_ENTRADA: 15,
+  PRECIO_REAL: 6,
+  PRECIO: 7,
+  COLOR: 8,
+  ESTADO: 9,
+  DESCRIPCION: 10,
+  // NOTAS_INTERNAS: 11 — never exposed
+  IMAGEN_1: 12,
+  IMAGEN_2: 13,
+  IMAGEN_3: 14,
+  IMAGEN_4: 15,
+  FECHA_ENTRADA: 16,
 };
 
 async function getAccessToken() {
@@ -36,7 +37,7 @@ async function getAccessToken() {
 }
 
 async function getSheetRows(sheetId, accessToken) {
-  const range = encodeURIComponent('Productos!A2:P');
+  const range = encodeURIComponent('Productos!A2:Q');
   const url = `${SHEETS_API}/${sheetId}/values/${range}`;
 
   const res = await fetch(url, {
@@ -62,6 +63,7 @@ function parseRows(rows) {
       marca: row[COLS.MARCA] || '',
       modelo: row[COLS.MODELO] || '',
       talla: parseFloat(row[COLS.TALLA]) || 0,
+      precio_real: parseFloat(row[COLS.PRECIO_REAL]) || null,
       precio: parseFloat(row[COLS.PRECIO]) || 0,
       color: row[COLS.COLOR] || '',
       descripcion: row[COLS.DESCRIPCION] || '',
@@ -86,6 +88,7 @@ function groupByCodigo(rows) {
         marca: row.marca,
         modelo: row.modelo,
         color: row.color,
+        precio_real: row.precio_real,
         precio: row.precio,
         descripcion: row.descripcion,
         imagenes: row.imagenes,

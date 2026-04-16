@@ -32,13 +32,32 @@ function renderDetail() {
   // Text
   setText('detail-marca', product.marca);
   setText('detail-nombre', product.nombre);
-  setText('detail-precio', formatMXN(product.precio));
+  renderPrice();
   setText('detail-descripcion', product.descripcion);
   if (!product.descripcion) document.getElementById('detail-descripcion-section')?.classList.add('hidden');
 
   renderGallery();
   renderSizeChips();
   updateCTA();
+}
+
+function renderPrice() {
+  const el = document.getElementById('detail-precio');
+  if (!el) return;
+
+  const isOnSale = product.precio_real && product.precio_real > product.precio;
+
+  if (isOnSale) {
+    const pct = Math.round((1 - product.precio / product.precio_real) * 100);
+    el.innerHTML = `
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="text-2xl font-bold font-tabular">${formatMXN(product.precio)}</span>
+        <span class="text-base font-tabular text-[#a3a3a3] dark:text-[#525252] line-through">${formatMXN(product.precio_real)}</span>
+        <span class="text-xs font-semibold bg-[#e05656] text-white rounded-full px-2 py-0.5 leading-none">−${pct}%</span>
+      </div>`;
+  } else {
+    el.innerHTML = `<span class="text-xl font-bold font-tabular">${formatMXN(product.precio)}</span>`;
+  }
 }
 
 function renderGallery() {
@@ -139,6 +158,11 @@ function renderSizeChips() {
 
     updateCTA();
   });
+
+  // Auto-select when only one size is available
+  if (product.tallas.length === 1) {
+    container.querySelector('.chip-size')?.click();
+  }
 }
 
 function updateCTA() {
