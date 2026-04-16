@@ -142,17 +142,20 @@ function renderSizeChips() {
 }
 
 function updateCTA() {
-  const btn = document.getElementById('btn-whatsapp');
-  const txt = document.getElementById('btn-whatsapp-text');
-  if (!btn) return;
-
   const ready = selectedTalla !== null;
-  btn.disabled = !ready;
-  btn.classList.toggle('opacity-40', !ready);
-  btn.classList.toggle('cursor-not-allowed', !ready);
-  btn.classList.toggle('cursor-pointer', ready);
-  btn.style.transition = 'opacity 200ms';
-  if (txt) txt.textContent = ready ? 'Consultar por WhatsApp' : 'Selecciona una talla';
+  const label = ready ? 'Consultar por WhatsApp' : 'Selecciona una talla';
+
+  document.querySelectorAll('.btn-whatsapp').forEach(btn => {
+    btn.disabled = !ready;
+    btn.classList.toggle('opacity-40', !ready);
+    btn.classList.toggle('cursor-not-allowed', !ready);
+    btn.classList.toggle('cursor-pointer', ready);
+    btn.style.transition = 'opacity 200ms';
+  });
+
+  document.querySelectorAll('.btn-whatsapp-text').forEach(txt => {
+    txt.textContent = label;
+  });
 }
 
 function showSkeleton(show) {
@@ -171,10 +174,12 @@ function setText(id, text) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('btn-whatsapp')?.addEventListener('click', () => {
-    if (product && selectedTalla !== null) {
-      openWhatsApp(product, selectedTalla, whatsappNumber);
-    }
+  document.querySelectorAll('.btn-whatsapp').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (product && selectedTalla !== null) {
+        openWhatsApp(product, selectedTalla, whatsappNumber);
+      }
+    });
   });
 
   init();
