@@ -5,8 +5,9 @@ function url(publicId, transform) {
   return `${BASE}/${transform}/${publicId}`;
 }
 
-export function thumbUrl(publicId) {
-  return url(publicId, 'w_600,c_pad,ar_1:1,b_f5f5f5,f_auto,q_auto');
+export function thumbUrl(publicId, isDark = false) {
+  const bg = isDark ? '171717' : 'f5f5f5';
+  return url(publicId, `w_600,c_pad,ar_1:1,b_${bg},f_auto,q_auto`);
 }
 
 export function thumbBlurUrl(publicId) {

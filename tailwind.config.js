@@ -4,7 +4,7 @@ module.exports = {
     './public/**/*.html',
     './public/js/**/*.js',
   ],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {

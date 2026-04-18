@@ -2,15 +2,14 @@ import { fetchProducts } from './api.js';
 import { state, applyFilters } from './state.js';
 import { renderGrid, renderSkeleton } from './grid.js';
 import { initFilters } from './filters.js';
+import { initTheme, toggleTheme, onThemeChange } from './theme.js';
 
 async function init() {
   renderSkeleton();
-
   try {
     const data = await fetchProducts();
     state.allProducts = data.products;
     state.meta = data.meta;
-
     initFilters(data.meta);
     renderGrid(applyFilters());
   } catch (err) {
@@ -25,7 +24,12 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Navigate to detail on card click
+  initTheme();
+  document.getElementById('btn-theme')?.addEventListener('click', toggleTheme);
+
+  // Re-render grid when theme toggles so Cloudinary image URLs update
+  onThemeChange(() => renderGrid(applyFilters()));
+
   document.getElementById('grid')?.addEventListener('click', e => {
     const card = e.target.closest('[data-codigo]');
     if (card) location.href = `/producto.html?codigo=${encodeURIComponent(card.dataset.codigo)}`;

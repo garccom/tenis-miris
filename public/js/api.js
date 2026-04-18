@@ -1,4 +1,4 @@
-const CACHE_KEY = 'tm_products_v1';
+const CACHE_KEY = 'tm_products_v2';
 const CACHE_TTL = 15 * 60 * 1000; // 15 min
 
 export async function fetchProducts() {

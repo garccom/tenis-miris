@@ -150,7 +150,13 @@ export const handler = async () => {
     const rows = await getSheetRows(sheetId, accessToken);
     const parsed = parseRows(rows);
     const grouped = groupByCodigo(parsed);
-    const products = grouped.sort((a, b) => b.fecha_entrada.localeCompare(a.fecha_entrada));
+    const products = grouped.sort((a, b) => {
+      const marcaCmp = a.marca.localeCompare(b.marca, 'es', { sensitivity: 'base' });
+      if (marcaCmp !== 0) return marcaCmp;
+      const precioCmp = a.precio - b.precio;
+      if (precioCmp !== 0) return precioCmp;
+      return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+    });
     const meta = buildMeta(products, parsed.length, whatsappNumber);
 
     return {
