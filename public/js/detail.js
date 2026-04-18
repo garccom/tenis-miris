@@ -2,6 +2,7 @@ import { fetchProducts } from './api.js';
 import { detailUrl, thumbUrl } from './cloudinary.js';
 import { formatMXN } from './utils.js';
 import { openWhatsApp } from './whatsapp.js';
+import { initTheme, toggleTheme, onThemeChange } from './theme.js';
 
 let product = null;
 let selectedTalla = null;
@@ -50,13 +51,17 @@ function renderPrice() {
   if (isOnSale) {
     const pct = Math.round((1 - product.precio / product.precio_real) * 100);
     el.innerHTML = `
-      <div class="flex items-center gap-3 flex-wrap">
-        <span class="text-2xl font-bold font-tabular">${formatMXN(product.precio)}</span>
-        <span class="text-base font-tabular text-[#a3a3a3] dark:text-[#525252] line-through">${formatMXN(product.precio_real)}</span>
-        <span class="text-xs font-semibold bg-[#e05656] text-white rounded-full px-2 py-0.5 leading-none">−${pct}%</span>
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl md:text-3xl font-bold font-tabular text-[#0a0a0a] dark:text-[#fafafa]">${formatMXN(product.precio)}</span>
+          <span class="inline-flex items-center text-xs font-semibold bg-[#e05656] text-white rounded-full px-2.5 py-1 tracking-wide">−${pct}%</span>
+        </div>
+        <p class="text-sm font-tabular text-[#a3a3a3] dark:text-[#525252]">
+          Antes: <span class="line-through">${formatMXN(product.precio_real)}</span>
+        </p>
       </div>`;
   } else {
-    el.innerHTML = `<span class="text-xl font-bold font-tabular">${formatMXN(product.precio)}</span>`;
+    el.innerHTML = `<span class="text-2xl md:text-3xl font-bold font-tabular text-[#0a0a0a] dark:text-[#fafafa]">${formatMXN(product.precio)}</span>`;
   }
 }
 
@@ -106,9 +111,10 @@ function renderGallery() {
 
   // Thumbnails (desktop)
   if (thumbsEl && imgs.length > 1) {
+    const isDark = document.documentElement.classList.contains('dark');
     thumbsEl.innerHTML = imgs.map((img, i) => `
       <button class="g-thumb ${i === 0 ? 'opacity-100 ring-1 ring-[#0a0a0a] dark:ring-[#fafafa]' : 'opacity-40'} transition-all duration-150 overflow-hidden" data-i="${i}">
-        <img src="${thumbUrl(img)}" alt="Vista ${i + 1}" class="w-full aspect-square object-cover" />
+        <img src="${thumbUrl(img, isDark)}" alt="Vista ${i + 1}" class="w-full aspect-square object-cover" />
       </button>
     `).join('');
     thumbsEl.addEventListener('click', e => {
@@ -198,6 +204,24 @@ function setText(id, text) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  document.getElementById('btn-theme')?.addEventListener('click', toggleTheme);
+
+  // Re-render current gallery image so Cloudinary bg color matches theme
+  onThemeChange(() => {
+    if (product) {
+      const imgs = product.imagenes;
+      const mainImg = document.getElementById('gallery-main');
+      if (mainImg && imgs.length) {
+        mainImg.src = detailUrl(imgs[currentImgIdx], window.innerWidth < 768);
+      }
+      // Update thumbnails
+      document.querySelectorAll('.g-thumb img').forEach((img, i) => {
+        if (imgs[i]) img.src = thumbUrl(imgs[i], document.documentElement.classList.contains('dark'));
+      });
+    }
+  });
+
   document.querySelectorAll('.btn-whatsapp').forEach(btn => {
     btn.addEventListener('click', () => {
       if (product && selectedTalla !== null) {
