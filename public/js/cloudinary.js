@@ -6,7 +6,7 @@ function url(publicId, transform) {
 }
 
 export function thumbUrl(publicId, isDark = false) {
-  const bg = isDark ? '171717' : 'f5f5f5';
+  const bg = isDark ? 'rgb:171717' : 'rgb:f5f5f5';
   return url(publicId, `w_600,c_pad,ar_1:1,b_${bg},f_auto,q_auto`);
 }
 
