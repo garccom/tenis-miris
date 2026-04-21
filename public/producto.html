@@ -23,11 +23,11 @@
   <!-- ── Header ──────────────────────────────────────────────────────────── -->
   <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-[#e5e5e5] dark:border-[#262626]">
     <div class="max-w-7xl mx-auto px-4 h-14 flex items-center gap-4">
-      <a href="/" class="w-10 h-10 flex items-center justify-center text-[#0a0a0a] dark:text-[#fafafa]" aria-label="Volver al catálogo">
+      <button onclick="history.length > 1 ? history.back() : location.href = '/'" class="w-10 h-10 flex items-center justify-center text-[#0a0a0a] dark:text-[#fafafa]" aria-label="Volver al catálogo">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
-      </a>
+      </button>
       <a href="/" class="text-base font-bold tracking-widest uppercase select-none">
         Tenis Miri
       </a>

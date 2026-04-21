@@ -11,6 +11,8 @@ export function initFilters(meta) {
   initPriceRange(meta.precio_min, meta.precio_max);
   initBottomSheet();
   syncFromUrl();
+  syncPriceUI();
+  syncChipsFromState();
   applyAndRender();
 }
 
@@ -160,14 +162,77 @@ function applyAndRender() {
   const results = applyFilters();
   renderGrid(results);
   syncToUrl();
+  updateFilterIndicators();
+}
+
+function updateFilterIndicators() {
+  const badge = document.getElementById('filter-badge');
+  const bar = document.getElementById('active-filters-bar');
+  if (!bar) return;
+
+  const { marcas, tallas, precioMin, precioMax } = state.filters;
+  const meta = state.meta;
+  const priceChanged = meta && (precioMin !== meta.precio_min || precioMax !== meta.precio_max);
+  const hasFilters = marcas.length > 0 || tallas.length > 0 || priceChanged;
+
+  if (badge) badge.classList.toggle('hidden', !hasFilters);
+
+  if (!hasFilters) {
+    bar.classList.add('hidden');
+    bar.classList.remove('flex');
+    bar.innerHTML = '';
+    return;
+  }
+
+  const parts = [];
+  if (marcas.length) parts.push(marcas.join(', '));
+  if (tallas.length) parts.push(tallas.join(' · '));
+  if (priceChanged) parts.push(`${formatMXN(precioMin)} – ${formatMXN(precioMax)}`);
+
+  bar.innerHTML = parts.map(p =>
+    `<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#f5f5f5] dark:bg-[#171717] border border-[#e5e5e5] dark:border-[#262626] font-medium text-[#0a0a0a] dark:text-[#fafafa]">${p}</span>`
+  ).join('');
+  bar.classList.remove('hidden');
+  bar.classList.add('flex');
+}
+
+function syncPriceUI() {
+  const minInput = document.getElementById('precio-min');
+  const maxInput = document.getElementById('precio-max');
+  const minLabel = document.getElementById('precio-min-label');
+  const maxLabel = document.getElementById('precio-max-label');
+  if (minInput && state.filters.precioMin !== null) {
+    minInput.value = state.filters.precioMin;
+    if (minLabel) minLabel.textContent = formatMXN(state.filters.precioMin);
+  }
+  if (maxInput && state.filters.precioMax !== null) {
+    maxInput.value = state.filters.precioMax;
+    if (maxLabel) maxLabel.textContent = formatMXN(state.filters.precioMax);
+  }
+}
+
+function syncChipsFromState() {
+  const marcaContainer = document.getElementById('filter-marcas');
+  const tallaContainer = document.getElementById('filter-tallas');
+  if (marcaContainer && state.filters.marcas.length) {
+    updateChips(marcaContainer, '.chip-marca', 'data-marca', state.filters.marcas);
+  }
+  if (tallaContainer && state.filters.tallas.length) {
+    updateChips(tallaContainer, '.chip-talla', 'data-talla', state.filters.tallas.map(String));
+  }
 }
 
 // ─── URL sync ─────────────────────────────────────────────────────────────────
 
 function syncToUrl() {
   const params = new URLSearchParams();
-  if (state.filters.marcas.length) params.set('marca', state.filters.marcas.join(','));
-  if (state.filters.tallas.length) params.set('talla', state.filters.tallas.join(','));
+  const { marcas, tallas, precioMin, precioMax } = state.filters;
+  const meta = state.meta;
+
+  if (marcas.length) params.set('marca', marcas.join(','));
+  if (tallas.length) params.set('talla', tallas.join(','));
+  if (meta && precioMin !== meta.precio_min) params.set('pmin', precioMin);
+  if (meta && precioMax !== meta.precio_max) params.set('pmax', precioMax);
 
   const url = params.toString() ? `${location.pathname}?${params}` : location.pathname;
   history.replaceState({}, '', url);
@@ -177,4 +242,6 @@ function syncFromUrl() {
   const params = new URLSearchParams(location.search);
   if (params.has('marca')) state.filters.marcas = params.get('marca').split(',');
   if (params.has('talla')) state.filters.tallas = params.get('talla').split(',').map(parseFloat);
+  if (params.has('pmin')) state.filters.precioMin = parseFloat(params.get('pmin'));
+  if (params.has('pmax')) state.filters.precioMax = parseFloat(params.get('pmax'));
 }
