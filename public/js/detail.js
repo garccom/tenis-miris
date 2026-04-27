@@ -73,12 +73,12 @@ function renderGallery() {
 
   if (!imgs.length) return;
 
-  const show = idx => {
+  let busy = false;
+
+  const show = (idx, direction = 0) => {
+    if (busy) return;
     currentImgIdx = idx;
-    if (mainImg) {
-      mainImg.src = detailUrl(imgs[idx], document.documentElement.classList.contains('dark'), window.innerWidth < 768);
-      mainImg.alt = product.nombre;
-    }
+
     // Dots
     document.querySelectorAll('.g-dot').forEach((d, i) => {
       d.classList.toggle('bg-[#0a0a0a]', i === idx);
@@ -94,6 +94,39 @@ function renderGallery() {
       t.classList.toggle('dark:ring-[#fafafa]', i === idx);
       t.classList.toggle('opacity-40', i !== idx);
     });
+
+    if (!mainImg) return;
+
+    const isDark = document.documentElement.classList.contains('dark');
+    const newSrc = detailUrl(imgs[idx], isDark, window.innerWidth < 768);
+
+    if (direction === 0) {
+      mainImg.src = newSrc;
+      mainImg.alt = product.nombre;
+      return;
+    }
+
+    busy = true;
+    const outX = direction > 0 ? '-105%' : '105%';
+    const inX  = direction > 0 ?  '105%' : '-105%';
+
+    mainImg.style.transition = 'transform 160ms ease-in, opacity 160ms ease-in';
+    mainImg.style.transform  = `translateX(${outX})`;
+    mainImg.style.opacity    = '0';
+
+    setTimeout(() => {
+      mainImg.src = newSrc;
+      mainImg.alt = product.nombre;
+      mainImg.style.transition = 'none';
+      mainImg.style.transform  = `translateX(${inX})`;
+      mainImg.style.opacity    = '0';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        mainImg.style.transition = 'transform 160ms ease-out, opacity 160ms ease-out';
+        mainImg.style.transform  = 'translateX(0)';
+        mainImg.style.opacity    = '1';
+        setTimeout(() => { busy = false; }, 160);
+      }));
+    }, 160);
   };
 
   show(0);
@@ -105,7 +138,10 @@ function renderGallery() {
     `).join('');
     dotsEl.addEventListener('click', e => {
       const btn = e.target.closest('.g-dot');
-      if (btn) show(+btn.dataset.i);
+      if (btn) {
+        const target = +btn.dataset.i;
+        show(target, target > currentImgIdx ? 1 : -1);
+      }
     });
   }
 
@@ -119,7 +155,10 @@ function renderGallery() {
     `).join('');
     thumbsEl.addEventListener('click', e => {
       const btn = e.target.closest('.g-thumb');
-      if (btn) show(+btn.dataset.i);
+      if (btn) {
+        const target = +btn.dataset.i;
+        show(target, target > currentImgIdx ? 1 : -1);
+      }
     });
   }
 
@@ -129,8 +168,8 @@ function renderGallery() {
   mainImg?.addEventListener('touchend', e => {
     const diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) < 50) return;
-    if (diff > 0 && currentImgIdx < imgs.length - 1) show(currentImgIdx + 1);
-    else if (diff < 0 && currentImgIdx > 0) show(currentImgIdx - 1);
+    if (diff > 0 && currentImgIdx < imgs.length - 1) show(currentImgIdx + 1,  1);
+    else if (diff < 0 && currentImgIdx > 0)          show(currentImgIdx - 1, -1);
   }, { passive: true });
 }
 
