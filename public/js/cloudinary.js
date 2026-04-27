@@ -14,8 +14,10 @@ export function thumbBlurUrl(publicId) {
   return url(publicId, 'w_20,e_blur:200,f_auto,q_1');
 }
 
-export function detailUrl(publicId, mobile = true) {
-  return url(publicId, mobile ? 'w_800,f_auto,q_auto' : 'w_1200,f_auto,q_auto');
+export function detailUrl(publicId, isDark = false, mobile = true) {
+  const bg = isDark ? 'rgb:171717' : 'rgb:f5f5f5';
+  const w = mobile ? 800 : 1200;
+  return url(publicId, `w_${w},c_pad,ar_1:1,b_${bg},f_auto,q_auto`);
 }
 
 export function whatsappImageUrl(publicId) {

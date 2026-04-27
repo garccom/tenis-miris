@@ -76,7 +76,7 @@ function renderGallery() {
   const show = idx => {
     currentImgIdx = idx;
     if (mainImg) {
-      mainImg.src = detailUrl(imgs[idx], window.innerWidth < 768);
+      mainImg.src = detailUrl(imgs[idx], document.documentElement.classList.contains('dark'), window.innerWidth < 768);
       mainImg.alt = product.nombre;
     }
     // Dots
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const imgs = product.imagenes;
       const mainImg = document.getElementById('gallery-main');
       if (mainImg && imgs.length) {
-        mainImg.src = detailUrl(imgs[currentImgIdx], window.innerWidth < 768);
+        mainImg.src = detailUrl(imgs[currentImgIdx], document.documentElement.classList.contains('dark'), window.innerWidth < 768);
       }
       // Update thumbnails
       document.querySelectorAll('.g-thumb img').forEach((img, i) => {

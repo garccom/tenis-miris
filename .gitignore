@@ -2,3 +2,6 @@ node_modules/
 public/css/output.css
 .env
 *.json.service-account
+
+# Local Netlify folder
+.netlify
